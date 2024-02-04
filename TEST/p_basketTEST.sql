@@ -1,0 +1,28 @@
+select*from t_basket
+
+begin
+  p_basket.add_product_basket(900,460,1);
+  end;
+  
+begin
+    p_basket.remove_product_basket(910,460,1);
+  end;
+  
+declare
+  v_result_cursor sys_refcursor;
+  v_product_id t_basket.product_id%type;
+  v_product_count t_basket.product_count%type;
+  v_product_name t_product.product_name%type;
+  v_price t_product.price%type;
+begin
+  v_result_cursor := p_basket.get_basket(910);
+  loop
+    fetch v_result_cursor into v_product_id,v_product_count, v_product_name, v_price;
+    exit when v_result_cursor%notfound;
+
+    dbms_output.put_line('Product ID: ' || v_product_id);
+    dbms_output.put_line('Product Name: ' || v_product_name);
+    dbms_output.put_line('Product Count: ' || v_product_count);
+    dbms_output.put_line('Price: ' || v_price);
+  end loop;
+end;
